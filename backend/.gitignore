@@ -1,0 +1,63 @@
+# Fichiers et dossiers générés par Django
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+db.sqlite3
+
+# Répertoires des migrations
+*/migrations/*
+!*/migrations/__init__.py
+
+# Environnement virtuel
+venv/
+env/
+ENV/
+.venv/
+.env/
+
+# Répertoires des fichiers statiques et médias générés
+staticfiles/
+media/
+
+# Fichiers de log
+*.log
+
+# Fichiers de couverture de tests
+.coverage
+htmlcov/
+*.cover
+
+# Fichiers de tests
+.tox/
+.pytest_cache/
+nosetests.xml
+coverage.xml
+
+# Fichiers de configuration des éditeurs de texte
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Fichiers générés par le système d'exploitation
+.DS_Store
+Thumbs.db
+
+# Clés et mots de passe
+*.pem
+*.key
+*.crt
+
+# Fichiers de configuration pour MyPy
+.mypy_cache/
+
+# Fichiers de configuration pour Pylint
+.pylint.d/
+
+# Fichiers de configuration pour Pyre
+.pyre/
+
+# Fichiers de configuration pour Celery
+celerybeat-schedule
+celerybeat.pid
