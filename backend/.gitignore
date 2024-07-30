@@ -57,6 +57,7 @@ Thumbs.db
 
 # Fichiers de configuration pour Pyre
 .pyre/
+djang/
 
 # Fichiers de configuration pour Celery
 celerybeat-schedule
