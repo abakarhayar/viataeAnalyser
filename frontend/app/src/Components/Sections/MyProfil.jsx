@@ -41,9 +41,9 @@ export default function MyProfil() {
                   ></i>
                   <div className="flex-1">
                     <h6 className="text-primary mb-0">Num. Tél :</h6>
-                    <a href="" className="text-muted">
+                    <Link to="tel:+123456789" className="text-muted">
                       xxx
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>
