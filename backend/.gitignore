@@ -62,3 +62,5 @@ djang/
 # Fichiers de configuration pour Celery
 celerybeat-schedule
 celerybeat.pid
+/djang
+
