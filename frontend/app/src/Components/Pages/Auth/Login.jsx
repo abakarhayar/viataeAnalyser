@@ -25,14 +25,10 @@ export default function Login() {
                       <div className="col-lg-12">
                         <div className="mb-3">
                           <label className="form-label">
-                            {" "}
                             Email <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i
-                              data-feather="user"
-                              className="fea icon-sm icons"
-                            ></i>
+                            <i className="fea icon-sm icons uil uil-fast-mail"></i>
                             <input
                               type="email"
                               className="form-control ps-5"
@@ -50,10 +46,7 @@ export default function Login() {
                             Mot de passe <span className="text-danger">*</span>
                           </label>
                           <div className="form-icon position-relative">
-                            <i
-                              data-feather="key"
-                              className="fea icon-sm icons"
-                            ></i>
+                            <i className="fea icon-sm icons uil uil-key-skeleton"></i>
                             <input
                               type="password"
                               className="form-control ps-5"
@@ -73,7 +66,7 @@ export default function Login() {
                       <div className="col-12 text-center">
                         <p className="mb-0 mt-3">
                           <small className="text-dark me-2">
-                          Vous n'avez pas de compte ?
+                            Vous n'avez pas de compte ?
                           </small>{" "}
                           <Link to="/signup" className="text-dark fw-bold">
                             S'inscrire
