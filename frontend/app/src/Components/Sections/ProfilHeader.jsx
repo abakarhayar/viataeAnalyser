@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import AuthContext from "../../Context/AuthContext";
 
 export default function ProfilHeader() {
+  const { user } = useContext(AuthContext);
+
   return (
     <>
       <section
@@ -24,14 +27,14 @@ export default function ProfilHeader() {
                     <div className="col-lg-10 col-md-9">
                       <div className="row align-items-end">
                         <div className="col-md-7 text-md-start text-center mt-4 mt-sm-0">
-                          <h3 className="title mb-0">Ange Bérenger</h3>
-                          <small className="text-muted h6 me-2">Candidat</small>
+                          <h3 className="title mb-0">{user?.nom || "Nom "} {user?.prenom || "Prénom"}</h3>
+                          <small className="text-muted h6 me-2">{user?.role || "Rôle"}</small>
                         </div>
                         <div className="col-md-5 text-md-end text-center">
                           <ul className="list-unstyled social-icon social mb-0 mt-4">
                             <li className="list-inline-item">
                               <Link
-                                to="mailto:admin@example.com"
+                                to={`mailto:${user?.email}`}
                                 className="rounded"
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="bottom"

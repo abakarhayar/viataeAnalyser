@@ -10,26 +10,37 @@ import NotFoundPage from "./Components/Pages/NotFoundPage";
 import ContactUs from "./Components/Pages/ContactUs";
 import MyCv from "./Components/Pages/Auth/MyCv";
 import Setting from "./Components/Pages/Auth/Setting";
+import { ApiProvider } from "./Context/ApiContext";
+import { AuthProvider } from "./Context/AuthContext";
+import PrivateRoute from "./Components/Sections/PrivateRoute";
+ 
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="App">
-        <NavDiv />
-     
-        <Routes>
-            <Route path="/"  element={<Home />} />
-            <Route path="/login"  element={<Login />} />
-            <Route path="/profil"  element={<Profil />}/>
-            <Route path="/signup"  element={<SignUp />} />
-            <Route path="/mycv"  element={<MyCv />}/>
-            <Route path="/settings"  element={<Setting />}/>
-            <Route path="*" element={<NotFoundPage />} />
+    <ApiProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <div className="App">
+            <NavDiv />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<SignUp />} />
+              <Route path="/contactus" element={<ContactUs />} />
+              
+              <Route path="/" element={<PrivateRoute />}>
+                <Route path="/profil" element={<Profil />} />
+                <Route path="/mycv" element={<MyCv />} />
+                <Route path="/settings" element={<Setting />} />
+              </Route>
+              
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
-         
-        <FooterDiv />
-      </div>
-    </BrowserRouter>
+            <FooterDiv />
+          </div>
+        </BrowserRouter>
+      </AuthProvider>
+    </ApiProvider>
   );
 }
 

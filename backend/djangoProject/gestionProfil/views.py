@@ -5,7 +5,11 @@ from rest_framework.response import Response
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .models import User
 from .serializers import UserSerializer
+import logging
+from rest_framework_simplejwt.tokens import RefreshToken
 
+
+logger = logging.getLogger(__name__)
 @api_view(['POST'])
 def inscription(request):
     serializer = UserSerializer(data=request.data)
@@ -13,7 +17,9 @@ def inscription(request):
         user = serializer.save()
         auth_login(request, user)
         return Response({'message': 'Inscription réussie', 'user': UserSerializer(user).data}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        logger.error(f"Errors: {serializer.errors}") 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def connexion(request):
@@ -22,7 +28,13 @@ def connexion(request):
     user = authenticate(email=email, password=password)
     if user:
         auth_login(request, user)
-        return Response({'message': 'Connexion réussie', 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
+        refresh = RefreshToken.for_user(user)
+        return Response({
+            'message': 'Connexion réussie',
+            'user': UserSerializer(user).data,
+            'access': str(refresh.access_token),
+            'refresh': str(refresh),
+        }, status=status.HTTP_200_OK)
     return Response({'message': 'Identifiants invalides'}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])

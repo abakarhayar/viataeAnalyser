@@ -1,7 +1,39 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import AuthContext from "../../../Context/AuthContext";
 
 export default function Login() {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await login(formData);
+      navigate("/profil"); 
+    } catch (error) {
+      console.error(error);
+      if (error.response) {
+        setError("Identifiants incorrects. Veuillez réessayer.");
+      }
+    }
+  };
+
   return (
     <>
       <section className="bg-home d-flex align-items-center">
@@ -20,7 +52,8 @@ export default function Login() {
               <div className="card login-page shadow rounded border-0">
                 <div className="card-body">
                   <h4 className="card-title text-center">Connexion</h4>
-                  <form className="login-form mt-4">
+                  {error && <p className="text-danger text-center">{error}</p>}
+                  <form className="login-form mt-4" onSubmit={handleSubmit}>
                     <div className="row">
                       <div className="col-lg-12">
                         <div className="mb-3">
@@ -34,7 +67,9 @@ export default function Login() {
                               className="form-control ps-5"
                               placeholder="Email"
                               name="email"
-                              required=""
+                              value={formData.email}
+                              onChange={handleChange}
+                              required
                             />
                           </div>
                         </div>
@@ -51,7 +86,10 @@ export default function Login() {
                               type="password"
                               className="form-control ps-5"
                               placeholder="Mot de passe"
-                              required=""
+                              name="password"
+                              value={formData.password}
+                              onChange={handleChange}
+                              required
                             />
                           </div>
                         </div>
