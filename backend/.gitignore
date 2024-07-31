@@ -63,4 +63,5 @@ djang/
 celerybeat-schedule
 celerybeat.pid
 /djang
+test.py
 
