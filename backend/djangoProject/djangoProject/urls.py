@@ -1,10 +1,11 @@
+# urls.py
 from django.contrib import admin
-from django.urls import path, include
-from gestionProfil.views import *
+from django.urls import path
+from gestionProfil.views import inscription, connexion, deconnexion
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accueil/', accueil, name='accueil'),
-    path('inscription/', inscription, name='inscription'),
-    path('connexion/', connexion, name='connexion'),
+    path('api/inscription/', inscription, name='inscription'),
+    path('api/connexion/', connexion, name='connexion'),
+    path('api/deconnexion/', deconnexion, name='deconnexion'),
 ]

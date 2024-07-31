@@ -31,6 +31,7 @@ AUTH_USER_MODEL = 'gestionProfil.User'
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'gestionProfil',
     'django.contrib.admin',
     'django.contrib.auth',
