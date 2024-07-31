@@ -1,6 +1,6 @@
 import React from 'react'
 import ProfilHeader from '../../Sections/ProfilHeader'
-import ProfilNav from '../../Sections/ProfilNav'
+import ProfilNav from '../../Partials/ProfilNav'
 import MyProfil from '../../Sections/MyProfil'
 
 export default function Profil() {

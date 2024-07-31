@@ -1,6 +1,6 @@
 import React from 'react'
 import ProfilHeader from '../../Sections/ProfilHeader'
-import ProfilNav from '../../Sections/ProfilNav'
+import ProfilNav from '../../Partials/ProfilNav'
 import MySetting from '../../Sections/MySetting'
 
 export default function Setting() {

@@ -1,6 +1,7 @@
 import React from 'react'
 import ProfilHeader from '../../Sections/ProfilHeader'
-import ProfilNav from '../../Sections/ProfilNav'
+import ProfilNav from '../../Partials/ProfilNav'
+import CvDiv from '../../Sections/CvDiv'
 
 export default function MyCv() {
   return (
@@ -10,6 +11,7 @@ export default function MyCv() {
     <div className="container mt-lg-3">
       <div className="row">
       <ProfilNav />
+      <CvDiv />
       </div>
    
     </div>

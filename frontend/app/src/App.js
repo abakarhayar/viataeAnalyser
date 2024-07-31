@@ -22,7 +22,6 @@ function App() {
             <Route path="/login"  element={<Login />} />
             <Route path="/profil"  element={<Profil />}/>
             <Route path="/signup"  element={<SignUp />} />
-            <Route path="/contact-us"  element={<ContactUs />}/>
             <Route path="/mycv"  element={<MyCv />}/>
             <Route path="/settings"  element={<Setting />}/>
             <Route path="*" element={<NotFoundPage />} />
