@@ -5,7 +5,9 @@ from rest_framework.response import Response
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .models import User
 from .serializers import UserSerializer
+import logging
 
+logger = logging.getLogger(__name__)
 @api_view(['POST'])
 def inscription(request):
     serializer = UserSerializer(data=request.data)
@@ -13,7 +15,9 @@ def inscription(request):
         user = serializer.save()
         auth_login(request, user)
         return Response({'message': 'Inscription réussie', 'user': UserSerializer(user).data}, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    else:
+        logger.error(f"Errors: {serializer.errors}") 
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
 def connexion(request):
