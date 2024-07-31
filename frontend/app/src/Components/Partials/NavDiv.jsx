@@ -16,7 +16,7 @@ export default function NavDiv() {
               </li>
               <li>
                 <Link to="/login" className="sub-menu-item">
-                  Login
+                Connexion
                 </Link>
               </li>
               <li>
