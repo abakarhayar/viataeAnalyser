@@ -8,6 +8,8 @@ import Profil from "./Components/Pages/Auth/Profil";
 import SignUp from "./Components/Pages/Auth/Signup";
 import NotFoundPage from "./Components/Pages/NotFoundPage";
 import ContactUs from "./Components/Pages/ContactUs";
+import MyCv from "./Components/Pages/Auth/MyCv";
+import Setting from "./Components/Pages/Auth/Setting";
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
             <Route path="/login"  element={<Login />} />
             <Route path="/profil"  element={<Profil />}/>
             <Route path="/signup"  element={<SignUp />} />
-            <Route path="/contact-us"  element={<ContactUs />}/>
+            <Route path="/mycv"  element={<MyCv />}/>
+            <Route path="/settings"  element={<Setting />}/>
             <Route path="*" element={<NotFoundPage />} />
             </Routes>
          

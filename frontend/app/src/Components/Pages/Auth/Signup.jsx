@@ -47,7 +47,6 @@ export default function SignUp() {
                           </label>
                           <div className="form-icon position-relative">
                             <i className="fea icon-sm icons uil uil-user-check"></i>
-
                             <input
                               type="text"
                               className="form-control ps-5"

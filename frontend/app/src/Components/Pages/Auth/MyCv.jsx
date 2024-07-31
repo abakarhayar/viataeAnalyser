@@ -1,9 +1,9 @@
 import React from 'react'
 import ProfilHeader from '../../Sections/ProfilHeader'
 import ProfilNav from '../../Partials/ProfilNav'
-import MyProfil from '../../Sections/MyProfil'
+import CvDiv from '../../Sections/CvDiv'
 
-export default function Profil() {
+export default function MyCv() {
   return (
     <>
     <ProfilHeader />
@@ -11,7 +11,7 @@ export default function Profil() {
     <div className="container mt-lg-3">
       <div className="row">
       <ProfilNav />
-      <MyProfil />
+      <CvDiv />
       </div>
    
     </div>

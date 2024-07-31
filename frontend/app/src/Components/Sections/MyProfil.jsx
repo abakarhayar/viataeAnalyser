@@ -75,8 +75,8 @@ export default function MyProfil() {
                 
             </div>
           </div>
-        </div>
-      </div>
+          </div>
+          </div>
     </>
   );
 }

@@ -25,7 +25,7 @@ export default function NavDiv() {
                 </Link>
               </li>
               <li>
-                <Link to="/contact-us" className="sub-menu-item">
+                <Link  to="mailto:admin@gmail.com" className="sub-menu-item">
                   Contact Us
                 </Link>
               </li>
