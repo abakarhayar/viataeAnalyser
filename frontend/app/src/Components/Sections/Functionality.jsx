@@ -13,12 +13,12 @@ export default function Functionality() {
                 data-wow-delay=".1s"
               >
                 <h4 className="title mb-4">
-                  Pourquoi tout le monde aime{" "}
-                  <span className="fw-bold text-primary">viateAnalizer?</span>
+                  Pourquoi tout le monde aime
+                  <span className="fw-bold text-primary">vitaeAnalizer?</span>
                 </h4>
                 <p className="text-muted para-desc mx-auto mb-0">
-                  L'outil qui vous aider à promouvoir{" "}
-                  <span className="text-primary fw-bold">vous-même</span>{" "}
+                  L'outil qui vous aider à promouvoir
+                  <span className="text-primary fw-bold">vous-même</span>
                 </p>
               </div>
             </div>
@@ -60,7 +60,7 @@ export default function Functionality() {
                     <span className="text-primary h5 me-2">
                       <i className="uil uil-check-circle align-middle"></i>
                     </span>
-                    Vous aider à promouvoir vous-même
+                    Vous aider à promouvoir vos compétences
                   </li>
                   <li className="mb-1">
                     <span className="text-primary h5 me-2">

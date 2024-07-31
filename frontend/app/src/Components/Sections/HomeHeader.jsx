@@ -17,7 +17,7 @@ export default function HomeHeader() {
                   <span className="text-primary"> par IA</span> <br />
                   Obtenez un <span className="text-primary">
                     Score de CV
-                  </span>{" "}
+                  </span>
                   Gratuit
                 </h1>
                 <p className="para-desc text-muted">
@@ -44,58 +44,7 @@ export default function HomeHeader() {
                 >
                   <div className="py-lg-5 py-md-0 py-5"></div>
                 </div>
-
-                <div
-                  className="modern-saas-absolute-left wow animate__animated animate__fadeInUp"
-                  data-wow-delay=".3s"
-                >
-                  <div className="card">
-                    <div className="features feature-primary d-flex justify-content-between align-items-center rounded shadow p-3">
-                      <div className="d-flex align-items-center">
-                        <div className="icon bg-soft-primary text-center rounded-pill">
-                          <i className="uil uil-usd-circle fs-4 mb-0"></i>
-                        </div>
-                        <div className="flex-1 ms-3">
-                          <h6 className="mb-0 text-muted">Augmentez</h6>
-                          <p className="fs-5 text-dark fw-bold mb-0">
-                            Vorte salaire
-                          </p>
-                        </div>
-                      </div>
-
-                      <span className="text-success ms-4">
-                        <i className="uil uil-arrow-growth"></i> 100%
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div
-                  className="modern-saas-absolute-right wow animate__animated animate__fadeInUp"
-                  data-wow-delay=".5s"
-                >
-                  <div className="card rounded shadow">
-                    <div className="p-3">
-                      <h5>Mettez vos compétences </h5>
-
-                      <div className="progress-box mt-2">
-                        <h6 className="title fw-normal text-muted">
-                          En valeur
-                        </h6>
-                        <div className="progress">
-                          <div
-                            className="progress-bar position-relative bg-primary"
-                            style={{ width: "84%" }}
-                          >
-                            <div className="progress-value d-block text-muted h6 mt-1">
-                              84%
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
 
                 <div className="position-absolute top-0 start-0 translate-middle z-index-m-1">
                   <img
