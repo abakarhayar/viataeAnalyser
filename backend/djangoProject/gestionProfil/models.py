@@ -27,9 +27,12 @@ class User(AbstractBaseUser, PermissionsMixin):
     prenom = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     telephone = models.CharField(max_length=15, blank=True, null=True)
+    adresse_postale = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    date_de_naissance = models.DateField(blank=True, null=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='candidat')
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)  # Pour admin
+    is_staff = models.BooleanField(default=False)  
 
     objects = UserManager()
 
