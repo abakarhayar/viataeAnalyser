@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
-from django.utils import timezone
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -17,7 +16,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password, **extra_fields)
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     ROLE_CHOICES = [
         ('admin', 'Admin'),
         ('rh', 'RH'),
@@ -27,11 +26,13 @@ class User(AbstractBaseUser):
     nom = models.CharField(max_length=30)
     prenom = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=128)
     telephone = models.CharField(max_length=15, blank=True, null=True)
+    adresse_postale = models.CharField(max_length=255, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    date_de_naissance = models.DateField(blank=True, null=True)
     role = models.CharField(max_length=10, choices=ROLE_CHOICES, default='candidat')
     is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)  # Pour admin
+    is_staff = models.BooleanField(default=False)  
 
     objects = UserManager()
 

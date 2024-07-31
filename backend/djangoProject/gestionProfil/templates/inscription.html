@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription</title>
 </head>
 <body>
-    <h2>Inscription</h2>
+    <h1>Inscription</h1>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     <form method="post">
         {% csrf_token %}
         {{ formulaire.as_p }}
         <button type="submit">S'inscrire</button>
     </form>
+    <a href="{% url 'connexion' %}">Déjà inscrit? Connectez-vous</a>
 </body>
 </html>
