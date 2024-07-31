@@ -10,7 +10,7 @@ export default function Services() {
             <div className="col-12">
                 <div className="section-title text-center mb-4 pb-2">
                     <h4 className="mb-4">Avantages d'une Revue de CV par IA</h4>
-                    <p className="para-desc mx-auto text-muted">Notre Vérificateur et Évaluateur de CV par IA est un outil conçu pour fournir une analyse immédiate et complète de votre CV.</p>
+                    <p className="para-desc mx-auto text-muted">Notre évaluateur de CV par IA est un outil conçu pour fournir une analyse immédiate et complète de votre CV.</p>
                 </div>
             </div>
         </div>

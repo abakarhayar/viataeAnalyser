@@ -14,11 +14,11 @@ export default function Functionality() {
               >
                 <h4 className="title mb-4">
                   Pourquoi tout le monde aime
-                  <span className="fw-bold text-primary">vitaeAnalizer?</span>
+                  <span className="fw-bold text-primary"> vitaeAnalizer ?</span>
                 </h4>
                 <p className="text-muted para-desc mx-auto mb-0">
-                  L'outil qui vous aider à promouvoir
-                  <span className="text-primary fw-bold">vous-même</span>
+                  L'outil qui vous aider à vous promouvoir
+                  <span className="text-primary fw-bold"> vous-même</span>
                 </p>
               </div>
             </div>

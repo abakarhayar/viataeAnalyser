@@ -16,9 +16,9 @@ export default function HomeHeader() {
                   Vérifiez la qualité de votre CV
                   <span className="text-primary"> par IA</span> <br />
                   Obtenez un <span className="text-primary">
-                    Score de CV
+                    Score de CV 
                   </span>
-                  Gratuit
+                  Gratuitement
                 </h1>
                 <p className="para-desc text-muted">
                   Mettez toutes les chances de votre côté en éliminant les
@@ -44,8 +44,6 @@ export default function HomeHeader() {
                 >
                   <div className="py-lg-5 py-md-0 py-5"></div>
                 </div>
-                
-
                 <div className="position-absolute top-0 start-0 translate-middle z-index-m-1">
                   <img
                     src="assets/images/shapes/dots.svg"
