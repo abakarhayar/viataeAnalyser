@@ -41,3 +41,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+class Candidature(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    titre_emploi = models.CharField(max_length=255)
+    annee_experience = models.IntegerField()
+    cv_candidat = models.FileField(upload_to='cv_pdfs/', default='cv_pdfs/default.pdf')
+    lettre_motiv = models.FileField(upload_to='motivation_pdfs/', blank=True, null=True)
+    score_cv = models.FloatField(default=0.0)
+    score_motivation = models.FloatField(default=0.0)
+    observation = models.TextField(blank=True, null=True)
+
+    def __str__(self):
+        return f"Candidature for {self.titre_emploi} by {self.user.email}"
+

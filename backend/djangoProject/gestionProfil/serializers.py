@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, Candidature
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,5 +17,19 @@ class UserSerializer(serializers.ModelSerializer):
                 instance.set_password(value)
             else:
                 setattr(instance, attr, value)
+        instance.save()
+        return instance
+
+class CandidatureSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Candidature
+        fields = ['id', 'user', 'titre_emploi', 'annee_experience', 'cv_candidat', 'lettre_motiv', 'score_cv', 'score_motivation', 'observation']
+
+    def create(self, validated_data):
+        return Candidature.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
         instance.save()
         return instance
