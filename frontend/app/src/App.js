@@ -13,6 +13,7 @@ import Setting from "./Components/Pages/Auth/Setting";
 import { ApiProvider } from "./Context/ApiContext";
 import { AuthProvider } from "./Context/AuthContext";
 import PrivateRoute from "./Components/Sections/PrivateRoute";
+import Candidate from "./Components/Pages/Auth/Candidate";
  
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
               
               <Route path="/" element={<PrivateRoute />}>
                 <Route path="/profil" element={<Profil />} />
+                <Route path="/candidate" element={<Candidate />} />
                 <Route path="/mycv" element={<MyCv />} />
                 <Route path="/settings" element={<Setting />} />
               </Route>
