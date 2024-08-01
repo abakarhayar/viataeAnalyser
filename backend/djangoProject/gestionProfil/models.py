@@ -46,7 +46,7 @@ class Candidature(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     titre_emploi = models.CharField(max_length=255)
     annee_experience = models.IntegerField()
-    cv_candidat = models.FileField(upload_to='cv_pdfs/', default='cv_pdfs/default.pdf')
+    cv_candidat = models.FileField(upload_to='cv_pdfs/')
     lettre_motiv = models.FileField(upload_to='motivation_pdfs/', blank=True, null=True)
     score_cv = models.FloatField(default=0.0)
     score_motivation = models.FloatField(default=0.0)

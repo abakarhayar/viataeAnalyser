@@ -71,11 +71,16 @@ def ajouter_candidature(request):
     if request.user.role not in ['candidat', 'admin']:
         return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
 
-    serializer = CandidatureSerializer(data=request.data)
+    data = request.data.copy()  # On fait une copie des données de la requête
+    data['user'] = request.user.id  # On ajoute l'ID de l'utilisateur aux données
+
+    serializer = CandidatureSerializer(data=data)
     if serializer.is_valid():
-        serializer.validated_data['user'] = request.user
-        serializer.save()
+        serializer.save(user=request.user)  # On sauvegarde avec l'utilisateur authentifié
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    # Log errors for debugging
+    print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
@@ -90,6 +95,7 @@ def afficher_candidature(request):
     
     serializer = CandidatureSerializer(candidatures, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
 def anonymiser_utilisateur(request):
     user = request.user
 

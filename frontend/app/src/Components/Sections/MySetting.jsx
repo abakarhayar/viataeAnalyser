@@ -1,11 +1,14 @@
 import React, { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 import axios from "axios";
 import AuthContext from "../../Context/AuthContext";
 import { useApi } from "../../Context/ApiContext";
 import AnonymizeAccount from "./AnonymizeAccount";
 
 export default function MySetting() {
+  const navigate = useNavigate();
+
   const { user } = useContext(AuthContext);
   const { apiUrl } = useApi();
   const [formData, setFormData] = useState({
@@ -51,6 +54,7 @@ export default function MySetting() {
         },
       });
       // console.log("Modification réussie", response.data);
+      navigate("/profil");
     } catch (error) {
       console.error("Erreur lors de la modification du profil", error);
     }
