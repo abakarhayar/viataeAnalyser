@@ -27,7 +27,7 @@ export default function Login() {
       await login(formData);
       navigate("/profil"); 
     } catch (error) {
-      console.error(error);
+       console.error(error);
       if (error.response) {
         setError("Identifiants incorrects. Veuillez réessayer.");
       }
