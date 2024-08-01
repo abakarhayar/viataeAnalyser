@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .models import User
-from .serializers import UserSerializer
+from .serializers import UserSerializer, CandidatureSerializer
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -62,3 +62,16 @@ def modifier_profil(request):
     else:
         logger.error(f"Errors: {serializer.errors}") 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def ajouter_candidature(request):
+    if request.user.role not in ['candidat', 'admin']:
+        return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
+
+    serializer = CandidatureSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.validated_data['user'] = request.user
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

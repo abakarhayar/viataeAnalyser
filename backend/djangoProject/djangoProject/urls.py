@@ -10,4 +10,5 @@ urlpatterns = [
     path('api/deconnexion/', deconnexion, name='deconnexion'),
     path('api/profil/', profil, name='profil'),
     path('api/profil/modifier/', modifier_profil, name='modifier_profil'),
+    path('api/ajouter-candidature/', ajouter_candidature, name='ajouter_candidature'),
 ]
