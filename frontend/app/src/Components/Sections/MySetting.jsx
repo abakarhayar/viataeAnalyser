@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import AuthContext from "../../Context/AuthContext";
 import { useApi } from "../../Context/ApiContext";
+import AnonymizeAccount from "./AnonymizeAccount";
 
 export default function MySetting() {
   const { user } = useContext(AuthContext);
@@ -190,21 +191,10 @@ export default function MySetting() {
             </form>
           </div>
         </div>
-        <div className="rounded shadow mt-4">
-          <div className="p-4 border-bottom">
-            <h5 className="mb-0 text-danger">Supprimer le compte:</h5>
-          </div>
-          <div className="p-4">
-            <h6 className="mb-0">
-              Voulez-vous supprimer le compte ? Veuillez appuyer ci-dessous sur
-              "Supprimer le compte"
-            </h6>
-            <div className="mt-4">
-              <button className="btn btn-danger">Supprimer le compte</button>
-            </div>
-          </div>
-        </div>
+      <AnonymizeAccount/>
       </div>
     </>
   );
 }
+
+
