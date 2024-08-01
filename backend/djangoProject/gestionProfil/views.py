@@ -7,6 +7,8 @@ from .models import User
 from .serializers import UserSerializer
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
+import random
+import string
 
 
 logger = logging.getLogger(__name__)
@@ -62,3 +64,24 @@ def modifier_profil(request):
     else:
         logger.error(f"Errors: {serializer.errors}") 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def anonymiser_utilisateur(request):
+    user = request.user
+
+    fake_nom = ''.join(random.choices(string.ascii_letters, k=10))
+    fake_prenom = ''.join(random.choices(string.ascii_letters, k=10))
+    fake_email = f"{fake_nom.lower()}.{fake_prenom.lower()}@fake.com"
+    fake_telephone = ''.join(random.choices(string.digits, k=10))
+
+    user.nom = fake_nom
+    user.prenom = fake_prenom
+    user.email = fake_email
+    user.telephone = fake_telephone
+    user.adresse_postale = ''
+    user.description = 'Utilisateur anonymisé'
+    user.save()
+
+    serializer = UserSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
