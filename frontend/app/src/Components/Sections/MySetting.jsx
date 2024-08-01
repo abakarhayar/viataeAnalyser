@@ -49,7 +49,7 @@ export default function MySetting() {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
         },
       });
-      console.log("Modification réussie", response.data);
+      // console.log("Modification réussie", response.data);
     } catch (error) {
       console.error("Erreur lors de la modification du profil", error);
     }

@@ -11,12 +11,16 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
+    // console.log("Token actuel :", token); 
+  
     if (token) {
-      axios.get(`${apiUrl}/user/`, { headers: { Authorization: `Bearer ${token}` } })
+      axios.get(`${apiUrl}/profil/`, { headers: { Authorization: `Bearer ${token}` } })
         .then(response => {
+          // console.log("Réponse de l'API :", response.data); 
           setUser(response.data);
         })
-        .catch(() => {
+        .catch((error) => {
+          console.error("Erreur lors de la récupération de l'utilisateur :", error);
           localStorage.removeItem('accessToken');
           localStorage.removeItem('refreshToken');
           setUser(null);
@@ -28,6 +32,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   }, [apiUrl]);
+  
 
   const login = async (formData) => {
     const response = await axios.post(`${apiUrl}/connexion/`, formData);
@@ -41,12 +46,23 @@ export const AuthProvider = ({ children }) => {
     return response;
   };
 
-  const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    setUser(null);
-  };
-
+const logout = async () => {
+  const token = localStorage.getItem('accessToken');
+  if (token) {
+    try {
+      await axios.post(`${apiUrl}/deconnexion/`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      console.error("Erreur lors de la déconnexion de l'API", error);
+    }
+  }
+  localStorage.removeItem('accessToken');
+  localStorage.removeItem('refreshToken');
+  setUser(null);
+};
   return (
     <AuthContext.Provider value={{ user, loading, login, logout }}>
       {children}
