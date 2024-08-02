@@ -14,6 +14,7 @@ import { ApiProvider } from "./Context/ApiContext";
 import { AuthProvider } from "./Context/AuthContext";
 import PrivateRoute from "./Components/Sections/PrivateRoute";
 import Candidate from "./Components/Pages/Auth/Candidate";
+// import 'bootstrap/dist/css/bootstrap.min.css';
  
 
 function App() {

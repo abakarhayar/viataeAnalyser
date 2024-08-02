@@ -6,7 +6,13 @@ from django.contrib.auth import login as auth_login, authenticate, logout as aut
 from .models import User, Candidature
 from .serializers import UserSerializer, CandidatureSerializer
 import logging
+import random
+import string
+import os
+import json
+
 from rest_framework_simplejwt.tokens import RefreshToken
+
 from .utils import analyze_document
 import fitz  # PyMuPDF
 
@@ -37,6 +43,22 @@ def filtrer_users_anonyms(request):
     serializer = UserSerializer(users, many=True)
     
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+observations_file = os.path.join(BASE_DIR, 'observations.json')
+
+with open(observations_file, encoding='utf-8') as f:
+    observations_data = json.load(f)
+
+def generate_score():
+    return random.randint(0, 100)
+
+def get_observation(score):
+    for obs in observations_data:
+        low, high = map(int, obs['range'].split('-'))
+        if low <= score <= high:
+            return obs['observation']
+    return ""
 
 @api_view(['POST'])
 def inscription(request):
@@ -112,17 +134,26 @@ def ajouter_candidature(request):
     if request.user.role not in ['candidat', 'admin']:
         return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
 
-    data = request.data.copy()  # On fait une copie des données de la requête
-    data['user'] = request.user.id  # On ajoute l'ID de l'utilisateur aux données
+    data = request.data.copy()
+    data['user'] = request.user.id
+
+    score_cv = generate_score()
+    score_motivation = generate_score()
+
+    observation = get_observation(score_cv)
+
+    data['score_cv'] = score_cv
+    data['score_motivation'] = score_motivation
+    data['observation'] = observation
 
     serializer = CandidatureSerializer(data=data)
     if serializer.is_valid():
-        serializer.save(user=request.user)  # On sauvegarde avec l'utilisateur authentifié
+        serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    # Log errors for debugging
+
     print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+  
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def afficher_candidature(request):
@@ -134,6 +165,25 @@ def afficher_candidature(request):
         return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
     
     serializer = CandidatureSerializer(candidatures, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+def anonymiser_utilisateur(request):
+    user = request.user
+
+    fake_nom = ''.join(random.choices(string.ascii_letters, k=10))
+    fake_prenom = ''.join(random.choices(string.ascii_letters, k=10))
+    fake_email = f"{fake_nom.lower()}.{fake_prenom.lower()}@fake.com"
+    fake_telephone = ''.join(random.choices(string.digits, k=10))
+
+    user.nom = fake_nom
+    user.prenom = fake_prenom
+    user.email = fake_email
+    user.telephone = fake_telephone
+    user.adresse_postale = ''
+    user.description = 'Utilisateur anonymisé'
+    user.save()
+
+    serializer = UserSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])

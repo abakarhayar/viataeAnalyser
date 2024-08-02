@@ -23,7 +23,9 @@ class UserSerializer(serializers.ModelSerializer):
 class CandidatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = Candidature
-        fields = ['id', 'user', 'titre_emploi', 'annee_experience', 'cv_candidat', 'lettre_motiv', 'score_cv', 'score_motivation', 'score_total', 'observation']
+        fields = ['id', 'titre_emploi', 'annee_experience', 'cv_candidat', 'lettre_motiv', 'score_cv', 'score_motivation', 'observation']
+        read_only_fields = ['user'] 
+
 
     def create(self, validated_data):
         return Candidature.objects.create(**validated_data)
