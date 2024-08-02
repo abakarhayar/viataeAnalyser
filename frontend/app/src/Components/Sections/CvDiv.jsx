@@ -84,7 +84,7 @@ export default function CvDiv() {
                             target="_blank"
                             rel="noopener noreferrer"
                           >
-                            <Button variant="secondary " size="sm" className="ml-2"> <i class="uil uil-eye"></i> Lettre cc</Button>
+                            <Button variant="secondary " size="sm" className="ml-2"> <i class="uil uil-eye"></i> Lettre</Button>
                           </Link>
                         )}
                        
