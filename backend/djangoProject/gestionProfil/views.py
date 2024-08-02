@@ -4,7 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .models import User, Candidature
-from .serializers import UserSerializer, CandidatureSerializer
+from .serializers import UserSerializer, CandidatureSerializer, CandidatureSerializerAnalyse
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
 from .utils import analyze_document
@@ -145,14 +145,18 @@ def analyse_candidature(request):
     
     # Récupérez les données de la requête
     description_emploi = request.data.get('description_emploi')
+    titre_emploi_recherche = request.data.get('titre_emploi')  # Le filtre de recherche pour le titre de l'emploi
     ville = request.data.get('ville')  # Vous pouvez supprimer cet argument si vous ne l'utilisez pas
 
     # Assurez-vous que la description de l'emploi est fournie
     if not description_emploi:
         return Response({'detail': 'La description de l\'emploi est requise.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Obtenez toutes les candidatures
-    candidatures = Candidature.objects.all()  # Vous pouvez ajouter un filtre pour la ville si nécessaire
+    # Filtrer les candidatures par titre d'emploi si fourni
+    if titre_emploi_recherche:
+        candidatures = Candidature.objects.filter(titre_emploi__icontains=titre_emploi_recherche)
+    else:
+        candidatures = Candidature.objects.all()  # Sans filtre pour le titre d'emploi
 
     # Calculer les scores pour chaque candidature
     for candidature in candidatures:
@@ -165,16 +169,16 @@ def analyse_candidature(request):
         lettre_keyword_score, lettre_experience_score, lettre_total_score = analyze_document(lettre_text, description_emploi, candidature.annee_experience)
 
         # Mettre à jour les scores de la candidature
-        candidature.score_cv = cv_total_score
-        candidature.score_motivation = lettre_total_score
+        candidature.score_cv_rh = cv_total_score
+        candidature.score_motivation_rh = lettre_total_score
         candidature.score_total = cv_total_score + lettre_total_score
         candidature.save()
 
     # Trier les candidatures par score total en ordre décroissant
-    candidatures_tries = Candidature.objects.all().order_by('-score_total')
+    candidatures_tries = candidatures.order_by('-score_total')
 
     # Sérialiser les candidatures triées
-    serializer = CandidatureSerializer(candidatures_tries, many=True)
+    serializer = CandidatureSerializerAnalyse(candidatures_tries, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])

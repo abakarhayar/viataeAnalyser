@@ -51,6 +51,8 @@ class Candidature(models.Model):
     lettre_motiv = models.FileField(upload_to='motivation_pdfs/', blank=True, null=True)
     score_cv = models.FloatField(default=0.0)
     score_motivation = models.FloatField(default=0.0)
+    score_cv_rh = models.FloatField(default=0.0)
+    score_motivation_rh = models.FloatField(default=0.0)
     score_total = models.FloatField(default=0.0)  # Nouveau champ pour le score total
     observation = models.TextField(blank=True, null=True)
 
