@@ -35,3 +35,12 @@ class CandidatureSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+    
+class CandidatureSerializerAnalyse(serializers.ModelSerializer):
+    class Meta:
+        model = Candidature
+        fields = [
+            'user', 'titre_emploi', 'annee_experience', 'cv_candidat', 
+            'lettre_motiv', 'score_cv_rh', 'score_motivation_rh', 
+            'score_total', 'observation'
+        ]    
