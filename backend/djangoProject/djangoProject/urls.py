@@ -12,6 +12,8 @@ urlpatterns = [
     path('api/profil/modifier/', modifier_profil, name='modifier_profil'),
     path('api/ajouter-candidature/', ajouter_candidature, name='ajouter_candidature'),
     path('api/afficher-candidature/', afficher_candidature, name='afficher_candidature'),
-    path('api/anonymiser/', anonymiser_utilisateur, name='anonymiser_utilisateur'),
+    path('api/analyse_candidature/', analyse_candidature, name='analyse_candidature'),
+    path('api/users/', list_users, name='list_users'),
+    path('api/filtrer_users_anonyms/', filtrer_users_anonyms, name='filtrer_users_anonyms'),
 
 ]

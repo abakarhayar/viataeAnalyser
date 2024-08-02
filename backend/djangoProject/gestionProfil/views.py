@@ -7,16 +7,36 @@ from .models import User, Candidature
 from .serializers import UserSerializer, CandidatureSerializer
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
-<<<<<<< HEAD
 from .utils import analyze_document
 import fitz  # PyMuPDF
-=======
-import random
-import string
-
->>>>>>> 49783f1a28d422f2da656b8632a5dfb7bea99f76
 
 logger = logging.getLogger(__name__)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def list_users(request):
+    if request.user.role != 'admin':
+        return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
+    
+    users = User.objects.all()
+    serializer = UserSerializer(users, many=True)
+    
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def filtrer_users_anonyms(request):
+    # Vérifiez si l'utilisateur a le rôle 'admin'
+    if request.user.role != 'admin':
+        return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
+    
+    # Filtrer les utilisateurs avec la description "Utilisateur anonymisé"
+    users = User.objects.filter(description="Utilisateur anonymisé")
+    
+    # Sérialiser les utilisateurs
+    serializer = UserSerializer(users, many=True)
+    
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['POST'])
 def inscription(request):
@@ -72,12 +92,19 @@ def modifier_profil(request):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def extract_text_from_pdf(pdf_path):
-    document = fitz.open(pdf_path)
-    text = ""
-    for page_num in range(document.page_count):
-        page = document.load_page(page_num)
-        text += page.get_text()
-    return text
+    try:
+        document = fitz.open(pdf_path)
+        text = ""
+        for page_num in range(len(document)):
+            page = document.load_page(page_num)
+            text += page.get_text()
+        return text
+    except FileNotFoundError:
+        return ""  # Retourner une chaîne vide ou gérer l'erreur comme vous le souhaitez
+    except Exception as e:
+        # Vous pouvez également logguer l'erreur ici
+        print(f"Erreur lors de l'extraction du texte : {e}")
+        return ""
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -85,26 +112,17 @@ def ajouter_candidature(request):
     if request.user.role not in ['candidat', 'admin']:
         return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
 
-    serializer = CandidatureSerializer(data=request.data)
+    data = request.data.copy()  # On fait une copie des données de la requête
+    data['user'] = request.user.id  # On ajoute l'ID de l'utilisateur aux données
+
+    serializer = CandidatureSerializer(data=data)
     if serializer.is_valid():
-        serializer.validated_data['user'] = request.user
-        candidature = serializer.save()
-
-        # Analyse du CV et de la lettre de motivation
-        cv_text = extract_text_from_pdf(candidature.cv_candidat.path)
-        lettre_text = extract_text_from_pdf(candidature.lettre_motiv.path) if candidature.lettre_motiv else ""
-
-        cv_keyword_score, cv_experience_score, cv_total_score = analyze_document(cv_text, candidature.titre_emploi, candidature.annee_experience)
-        lettre_keyword_score, lettre_experience_score, lettre_total_score = analyze_document(lettre_text, candidature.titre_emploi, candidature.annee_experience)
-
-        candidature.score_cv = cv_total_score
-        candidature.score_motivation = lettre_total_score
-        candidature.score_total = cv_total_score + lettre_total_score
-        candidature.save()
-
-        return Response(CandidatureSerializer(candidature).data, status=status.HTTP_201_CREATED)
+        serializer.save(user=request.user)  # On sauvegarde avec l'utilisateur authentifié
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    # Log errors for debugging
+    print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def afficher_candidature(request):
@@ -117,21 +135,44 @@ def afficher_candidature(request):
     
     serializer = CandidatureSerializer(candidatures, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-def anonymiser_utilisateur(request):
-    user = request.user
 
-    fake_nom = ''.join(random.choices(string.ascii_letters, k=10))
-    fake_prenom = ''.join(random.choices(string.ascii_letters, k=10))
-    fake_email = f"{fake_nom.lower()}.{fake_prenom.lower()}@fake.com"
-    fake_telephone = ''.join(random.choices(string.digits, k=10))
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def analyse_candidature(request):
+    # Vérifiez si l'utilisateur a le rôle requis
+    if request.user.role != 'rh' and request.user.role != 'admin':
+        return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
+    
+    # Récupérez les données de la requête
+    description_emploi = request.data.get('description_emploi')
+    ville = request.data.get('ville')  # Vous pouvez supprimer cet argument si vous ne l'utilisez pas
 
-    user.nom = fake_nom
-    user.prenom = fake_prenom
-    user.email = fake_email
-    user.telephone = fake_telephone
-    user.adresse_postale = ''
-    user.description = 'Utilisateur anonymisé'
-    user.save()
+    # Assurez-vous que la description de l'emploi est fournie
+    if not description_emploi:
+        return Response({'detail': 'La description de l\'emploi est requise.'}, status=status.HTTP_400_BAD_REQUEST)
 
-    serializer = UserSerializer(user)
+    # Obtenez toutes les candidatures
+    candidatures = Candidature.objects.all()  # Vous pouvez ajouter un filtre pour la ville si nécessaire
+
+    # Calculer les scores pour chaque candidature
+    for candidature in candidatures:
+        # Extraire le texte du CV et de la lettre de motivation
+        cv_text = extract_text_from_pdf(candidature.cv_candidat.path)
+        lettre_text = extract_text_from_pdf(candidature.lettre_motiv.path) if candidature.lettre_motiv else ""
+
+        # Analyser les documents
+        cv_keyword_score, cv_experience_score, cv_total_score = analyze_document(cv_text, description_emploi, candidature.annee_experience)
+        lettre_keyword_score, lettre_experience_score, lettre_total_score = analyze_document(lettre_text, description_emploi, candidature.annee_experience)
+
+        # Mettre à jour les scores de la candidature
+        candidature.score_cv = cv_total_score
+        candidature.score_motivation = lettre_total_score
+        candidature.score_total = cv_total_score + lettre_total_score
+        candidature.save()
+
+    # Trier les candidatures par score total en ordre décroissant
+    candidatures_tries = Candidature.objects.all().order_by('-score_total')
+
+    # Sérialiser les candidatures triées
+    serializer = CandidatureSerializer(candidatures_tries, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

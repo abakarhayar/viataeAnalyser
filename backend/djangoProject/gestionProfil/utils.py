@@ -1,16 +1,16 @@
+# utils.py
 import spacy
 from collections import Counter
 
 # Chargez le modèle spaCy
 nlp = spacy.load("en_core_web_sm")
 
-def analyze_document(text, job_title, experience_years):
+def analyze_document(text, job_description, experience_years):
     doc = nlp(text)
     words = [token.text.lower() for token in doc if token.is_alpha]
     
-    # Exemple de mots clés à rechercher
-    keywords = job_title.lower().split()
-    keywords += ['python', 'django', 'machine learning', 'data analysis']  # Ajoutez d'autres mots clés pertinents
+    # Utilisation de la description de l'emploi pour extraire les mots clés
+    keywords = job_description.lower().split()
 
     keyword_counts = Counter(words)
     keyword_score = sum(keyword_counts[key] for key in keywords if key in keyword_counts)
