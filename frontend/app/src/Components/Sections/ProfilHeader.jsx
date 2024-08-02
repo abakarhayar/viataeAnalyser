@@ -34,13 +34,13 @@ export default function ProfilHeader() {
                           <ul className="list-unstyled social-icon social mb-0 mt-4">
                             <li className="list-inline-item">
                               <Link
-                                to={`mailto:${user?.email}`}
+                                to="/profil"
                                 className="rounded"
                                 data-bs-toggle="tooltip"
                                 data-bs-placement="bottom"
                                 title="Email"
                               >
-                                <i className="uil uil-envelope align-middle"></i>
+                                <i className="uil uil-user align-middle"></i>
                               </Link>
                             </li>
                           </ul>

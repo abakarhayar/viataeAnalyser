@@ -9,7 +9,7 @@ export default function SignUp() {
     prenom: "",
     email: "",
     telephone: "",
-    role: "candidat",
+    role: "candidat", // Default role
     password: "",
     password2: "",
     is_active: true,
@@ -40,7 +40,6 @@ export default function SignUp() {
 
     try {
       const response = await axios.post(`${apiUrl}/inscription/`, formData);
-      // console.log(response.data);
       navigate("/login");
     } catch (error) {
       console.error(error);
@@ -75,7 +74,7 @@ export default function SignUp() {
                           Nom <span className="text-danger">*</span>
                         </label>
                         <div className="form-icon position-relative">
-                          <i className="fea icon-sm icons uil uil-user "></i>
+                          <i className="fea icon-sm icons uil uil-user"></i>
                           <input
                             type="text"
                             className="form-control ps-5"
@@ -145,7 +144,27 @@ export default function SignUp() {
                         </div>
                       </div>
                     </div>
-                   <div className="col-md-12">
+                    <div className="col-md-12">
+                      <div className="mb-3">
+                        <label className="form-label">
+                          Rôle <span className="text-danger">*</span>
+                        </label>
+                        <div className="form-icon position-relative">
+                          <i className="fea icon-sm icons uil uil-users-alt"></i>
+                          <select
+                            className="form-control ps-5"
+                            name="role"
+                            value={formData.role}
+                            onChange={handleChange}
+                            required
+                          >
+                            <option value="candidat">Candidat</option>
+                            <option value="rh">RH</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col-md-12">
                       <div className="mb-3">
                         <label className="form-label">
                           Mot de passe <span className="text-danger">*</span>
