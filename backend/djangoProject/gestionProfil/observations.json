@@ -1,0 +1,22 @@
+[
+    {"range": "0-5", "observation": "Votre CV manque de structure et de clarté. Ajoutez des sections distinctes pour l'expérience, l'éducation, et les compétences."},
+    {"range": "6-10", "observation": "Améliorez la mise en page de votre CV pour le rendre plus lisible et professionnel."},
+    {"range": "11-15", "observation": "Ajoutez des chiffres et des résultats quantifiables pour démontrer vos réalisations dans vos précédents emplois."},
+    {"range": "16-20", "observation": "Utilisez des verbes d'action pour décrire vos responsabilités et réalisations."},
+    {"range": "21-25", "observation": "Assurez-vous que votre CV est exempt de fautes d'orthographe et de grammaire."},
+    {"range": "26-30", "observation": "Ajoutez un résumé de vos qualifications en haut de votre CV pour capter l'attention des recruteurs."},
+    {"range": "31-35", "observation": "Incluez des mots-clés pertinents de l'industrie pour passer les systèmes de suivi des candidats (ATS)."},
+    {"range": "36-40", "observation": "Ajoutez des formations et certifications pertinentes pour renforcer votre CV."},
+    {"range": "41-45", "observation": "Personnalisez votre CV pour chaque poste auquel vous postulez, en mettant en avant les compétences et expériences les plus pertinentes."},
+    {"range": "46-50", "observation": "Utilisez un format de CV moderne et professionnel."},
+    {"range": "51-55", "observation": "Décrivez vos compétences techniques et informatiques en détail."},
+    {"range": "56-60", "observation": "Incluez des projets personnels ou bénévoles pertinents pour démontrer votre engagement et vos compétences."},
+    {"range": "61-65", "observation": "Assurez-vous que vos expériences professionnelles sont décrites de manière chronologique."},
+    {"range": "66-70", "observation": "Ajoutez des recommandations ou des références si possible."},
+    {"range": "71-75", "observation": "Rendez votre CV plus dynamique en ajoutant des graphiques ou des icônes si approprié."},
+    {"range": "76-80", "observation": "Simplifiez votre langage et évitez le jargon inutile."},
+    {"range": "81-85", "observation": "Décrivez clairement vos objectifs de carrière et vos aspirations professionnelles."},
+    {"range": "86-90", "observation": "Assurez-vous que vos coordonnées sont à jour et facilement accessibles."},
+    {"range": "91-95", "observation": "Utilisez des exemples concrets pour démontrer vos compétences en résolution de problèmes."},
+    {"range": "96-100", "observation": "Votre CV est excellent ! Continuez à le mettre à jour régulièrement avec vos nouvelles expériences et réalisations."}
+]

@@ -9,9 +9,27 @@ import logging
 from rest_framework_simplejwt.tokens import RefreshToken
 import random
 import string
-
+import os
+import json
 
 logger = logging.getLogger(__name__)
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+observations_file = os.path.join(BASE_DIR, 'observations.json')
+
+with open(observations_file) as f:
+    observations_data = json.load(f)
+
+def generate_score():
+    return random.randint(0, 100)
+
+def get_observation(score):
+    for obs in observations_data:
+        low, high = map(int, obs['range'].split('-'))
+        if low <= score <= high:
+            return obs['observation']
+    return ""
+
 @api_view(['POST'])
 def inscription(request):
     serializer = UserSerializer(data=request.data)
@@ -71,15 +89,23 @@ def ajouter_candidature(request):
     if request.user.role not in ['candidat', 'admin']:
         return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
 
-    data = request.data.copy()  # On fait une copie des données de la requête
-    data['user'] = request.user.id  # On ajoute l'ID de l'utilisateur aux données
+    data = request.data.copy()
+    data['user'] = request.user.id
+
+    score_cv = generate_score()
+    score_motivation = generate_score()
+
+    observation = get_observation(score_cv)
+
+    data['score_cv'] = score_cv
+    data['score_motivation'] = score_motivation
+    data['observation'] = observation
 
     serializer = CandidatureSerializer(data=data)
     if serializer.is_valid():
-        serializer.save(user=request.user)  # On sauvegarde avec l'utilisateur authentifié
+        serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    # Log errors for debugging
+
     print(serializer.errors)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
