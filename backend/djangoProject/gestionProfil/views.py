@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 observations_file = os.path.join(BASE_DIR, 'observations.json')
 
-with open(observations_file) as f:
+with open(observations_file, encoding='utf-8') as f:
     observations_data = json.load(f)
 
 def generate_score():
