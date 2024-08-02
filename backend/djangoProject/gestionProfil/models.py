@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
@@ -50,8 +51,8 @@ class Candidature(models.Model):
     lettre_motiv = models.FileField(upload_to='motivation_pdfs/', blank=True, null=True)
     score_cv = models.FloatField(default=0.0)
     score_motivation = models.FloatField(default=0.0)
+    score_total = models.FloatField(default=0.0)  # Nouveau champ pour le score total
     observation = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return f"Candidature for {self.titre_emploi} by {self.user.email}"
-

@@ -7,9 +7,11 @@ from .models import User, Candidature
 from .serializers import UserSerializer, CandidatureSerializer
 import logging
 from rest_framework_simplejwt.tokens import RefreshToken
-
+from .utils import analyze_document
+import fitz  # PyMuPDF
 
 logger = logging.getLogger(__name__)
+
 @api_view(['POST'])
 def inscription(request):
     serializer = UserSerializer(data=request.data)
@@ -62,7 +64,15 @@ def modifier_profil(request):
     else:
         logger.error(f"Errors: {serializer.errors}") 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+def extract_text_from_pdf(pdf_path):
+    document = fitz.open(pdf_path)
+    text = ""
+    for page_num in range(document.page_count):
+        page = document.load_page(page_num)
+        text += page.get_text()
+    return text
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def ajouter_candidature(request):
@@ -72,8 +82,21 @@ def ajouter_candidature(request):
     serializer = CandidatureSerializer(data=request.data)
     if serializer.is_valid():
         serializer.validated_data['user'] = request.user
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+        candidature = serializer.save()
+
+        # Analyse du CV et de la lettre de motivation
+        cv_text = extract_text_from_pdf(candidature.cv_candidat.path)
+        lettre_text = extract_text_from_pdf(candidature.lettre_motiv.path) if candidature.lettre_motiv else ""
+
+        cv_keyword_score, cv_experience_score, cv_total_score = analyze_document(cv_text, candidature.titre_emploi, candidature.annee_experience)
+        lettre_keyword_score, lettre_experience_score, lettre_total_score = analyze_document(lettre_text, candidature.titre_emploi, candidature.annee_experience)
+
+        candidature.score_cv = cv_total_score
+        candidature.score_motivation = lettre_total_score
+        candidature.score_total = cv_total_score + lettre_total_score
+        candidature.save()
+
+        return Response(CandidatureSerializer(candidature).data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
