@@ -10,7 +10,7 @@ export default function Login() {
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
+  const { login, user } = useContext(AuthContext);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -25,9 +25,14 @@ export default function Login() {
 
     try {
       await login(formData);
-      navigate("/profil"); 
+
+      if (user.role === "admin" || user.role === "rh") {
+        navigate("/dashboard");
+      } else {
+        navigate("/profil");
+      }
     } catch (error) {
-       console.error(error);
+      console.error(error);
       if (error.response) {
         setError("Identifiants incorrects. Veuillez réessayer.");
       }

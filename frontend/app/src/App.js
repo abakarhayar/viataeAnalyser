@@ -16,6 +16,7 @@ import PrivateRoute from "./Components/Sections/PrivateRoute";
 import Candidate from "./Components/Pages/Auth/Candidate";
 import User from "./Components/Pages/Auth/User";
 import Searchcandidate from "./Components/Pages/Auth/Searchcandidate";
+import Dashboard from "./Components/Pages/Auth/Dashboard";
 // import 'bootstrap/dist/css/bootstrap.min.css';
  
 
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/settings" element={<Setting />} />
                 <Route path="/userlist" element={<User />} />
                 <Route path="/searchcandidate" element={<Searchcandidate />} />
+                <Route path="/dashboard" element={<Dashboard />} />
               </Route>
               
               <Route path="*" element={<NotFoundPage />} />

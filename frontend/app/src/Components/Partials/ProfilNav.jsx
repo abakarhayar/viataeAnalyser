@@ -12,19 +12,20 @@ export default function ProfilNav() {
         <div className="sidebar sticky-bar p-4 rounded shadow">
           <div className="widget mt-4">
             <ul className="list-unstyled sidebar-nav mb-0" id="navmenu-nav">
-              <li className="navbar-item account-menu px-0">
-                <Link
-                  to="/profil"
-                  className="navbar-link d-flex rounded shadow align-items-center py-2 px-4"
-                >
-                  <span className="h4 mb-0">
-                    <i className="uil uil-dashboard"></i>
-                  </span>
-                  <h6 className="mb-0 ms-2">Mon Profil</h6>
-                </Link>
-              </li>
-
               
+            {user && (user.role === "admin" || user.role === "rh") && (
+                <li className="navbar-item account-menu px-0 mt-2">
+                  <Link
+                    to="/dashboard"
+                    className="navbar-link d-flex rounded shadow align-items-center py-2 px-4"
+                  >
+                    <span className="h4 mb-0">
+                      <i className="uil uil-dashboard"></i>
+                    </span>
+                    <h6 className="mb-0 ms-2">Dashboard</h6>
+                  </Link>
+                </li>
+              )}
 
               <li className="navbar-item account-menu px-0 mt-2">
                 <Link
@@ -37,6 +38,7 @@ export default function ProfilNav() {
                   <h6 className="mb-0 ms-2">Candidature</h6>
                 </Link>
               </li>
+
               <li className="navbar-item account-menu px-0 mt-2">
                 <Link
                   to="/mycv"
@@ -62,6 +64,7 @@ export default function ProfilNav() {
                   </Link>
                 </li>
               )}
+
               {user && user.role === "admin" && (
                 <li className="navbar-item account-menu px-0 mt-2">
                   <Link
@@ -76,8 +79,7 @@ export default function ProfilNav() {
                 </li>
               )}
 
-         
-               <li className="navbar-item account-menu px-0 mt-2">
+              <li className="navbar-item account-menu px-0 mt-2">
                 <Link
                   to="/settings"
                   className="navbar-link d-flex rounded shadow align-items-center py-2 px-4"
