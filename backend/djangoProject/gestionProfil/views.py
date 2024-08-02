@@ -246,3 +246,4 @@ def statistiques(request):
     }
     
     return Response(statistiques, status=status.HTTP_200_OK)
+

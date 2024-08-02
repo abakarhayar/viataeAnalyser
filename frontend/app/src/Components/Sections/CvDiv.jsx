@@ -42,7 +42,7 @@ export default function CvDiv() {
       <div className="col-lg-8 col-12">
         <div className="component-wrapper rounded shadow">
           <div className="p-4 border-bottom">
-            <h5 className="title mb-0">Les CVs</h5>
+            <h5 className="title mb-0">Cvthèque</h5>
           </div>
 
           <div className="p-4">
