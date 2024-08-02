@@ -14,6 +14,8 @@ import { ApiProvider } from "./Context/ApiContext";
 import { AuthProvider } from "./Context/AuthContext";
 import PrivateRoute from "./Components/Sections/PrivateRoute";
 import Candidate from "./Components/Pages/Auth/Candidate";
+import User from "./Components/Pages/Auth/User";
+import Searchcandidate from "./Components/Pages/Auth/Searchcandidate";
 // import 'bootstrap/dist/css/bootstrap.min.css';
  
 
@@ -35,6 +37,8 @@ function App() {
                 <Route path="/candidate" element={<Candidate />} />
                 <Route path="/mycv" element={<MyCv />} />
                 <Route path="/settings" element={<Setting />} />
+                <Route path="/userlist" element={<User />} />
+                <Route path="/searchcandidate" element={<Searchcandidate />} />
               </Route>
               
               <Route path="*" element={<NotFoundPage />} />
