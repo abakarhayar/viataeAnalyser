@@ -176,3 +176,23 @@ def analyse_candidature(request):
     # Sérialiser les candidatures triées
     serializer = CandidatureSerializer(candidatures_tries, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def statistiques(request):
+    if request.user.role != 'admin':
+        return Response({'detail': 'Vous n\'avez pas les droits nécessaires pour effectuer cette action.'}, status=status.HTTP_403_FORBIDDEN)
+    
+    nombre_cv = Candidature.objects.exclude(cv_candidat='cv_pdfs/default.pdf').count()
+    nombre_lettres_motiv = Candidature.objects.exclude(lettre_motiv=None).count()
+    nombre_utilisateurs = User.objects.count()
+    nombre_users_anonyms = User.objects.filter(description="Utilisateur anonymisé").count()
+    
+    statistiques = {
+        'nombre_cv': nombre_cv,
+        'nombre_lettres_motiv': nombre_lettres_motiv,
+        'nombre_utilisateurs': nombre_utilisateurs,
+        'nombre_users_anonyms': nombre_users_anonyms,
+    }
+    
+    return Response(statistiques, status=status.HTTP_200_OK)

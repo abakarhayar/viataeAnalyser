@@ -15,5 +15,6 @@ urlpatterns = [
     path('api/analyse_candidature/', analyse_candidature, name='analyse_candidature'),
     path('api/users/', list_users, name='list_users'),
     path('api/filtrer_users_anonyms/', filtrer_users_anonyms, name='filtrer_users_anonyms'),
+    path('api/statistiques/', statistiques, name='statistiques'),
 
 ]
